@@ -1,194 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedido de Namoro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fcfdff">
+  <title>Tenho uma pergunta pra você</title>
+  <meta name="description" content="Um bilhete com uma pergunta importante.">
+  <meta property="og:title" content="Tenho uma pergunta pra você">
+  <meta property="og:description" content="Abre com calma e aumenta o volume.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8C%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Caveat', cursive;
-      text-align: center;
-      background: #1a1a1a;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    h1 {
-      color: #ff0080;
-      margin-top: 15vh; /* Margem responsiva */
-      font-size: 6vw; /* Tamanho reduzido */
-      min-height: 8vw;
-    }
-
-    .pedido {
-      margin-bottom: 50px;
-    }
-
-    .botoes {
-      min-height: 10vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 50px;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .botao {
-      font-family: 'Caveat', cursive;
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 3.5vw; /* Tamanho reduzido */
-      background-color: #ff0080;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      margin: 0 10px;
-      transition: transform 0.3s;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
-
-    .botao:hover {
-      transform: scale(1.1);
-    }
-
-    #nao {
-        /* Posição inicial é gerenciada pelo flexbox */
-    }
-
-    .pulse-attention {
-      animation: shake 0.5s ease-in-out infinite;
-    }
-    
-    .popping-heart {
-        position: fixed;
-        font-size: 30px;
-        pointer-events: none; /* Impede que o emoji bloqueie cliques */
-        animation: pop-and-fade 0.7s ease-out forwards;
-        z-index: 100;
-    }
-
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-        20%, 40%, 60%, 80% { transform: translateX(8px); }
-    }
-
-    @keyframes pop-and-fade {
-        0% {
-            transform: scale(0.5);
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.2);
-            opacity: 0.8;
-        }
-        100% {
-            transform: scale(1.8);
-            opacity: 0;
-        }
-    }
-
-    /* Media query para telas muito grandes */
-    @media (min-width: 1200px) {
-        h1 { font-size: 72px; min-height: 90px; } /* Tamanho reduzido */
-        .botao { font-size: 42px; } /* Tamanho reduzido */
-    }
-
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="preload" href="images/coracao-rosa.svg" as="image">
+  <link rel="stylesheet" href="css/love.css">
+  <!-- esconde as cenas antes do primeiro quadro; o JS desfaz isso se o GSAP não carregar -->
+  <script>document.documentElement.classList.add('anima');</script>
 </head>
 <body>
-  <div class="pedido">
-    <h1></h1>
-  </div>
-  <div class="botoes">
-    <button id="sim" class="botao">Sim!</button>
-    <button id="nao" class="botao">Não</button>
-  </div>
 
-  <script>
-    const simButton = document.getElementById('sim');
-    const naoButton = document.getElementById('nao');
-    const h1 = document.querySelector('h1');
-    const botoesDiv = document.querySelector('.botoes');
+  <main>
+    <!-- Scrollytelling: o palco fica preso na tela e a rolagem dentro do trilho conduz a coreografia -->
+    <div class="trilho" id="trilho">
+      <div class="palco" id="palco">
+        <div class="enfeites" id="enfeites" aria-hidden="true"></div>
+        <div class="progresso" aria-hidden="true"><span class="progresso__coracao"></span></div>
 
-    const texto = "Quer namorar comigo?";
-    let index = 0;
+        <section class="cena cena--abertura" data-cor="#fcfdff">
+          <svg class="envelope" viewBox="0 -40 240 240" aria-hidden="true">
+            <g class="envelope__parte">
+              <path class="papel" d="M20 70 L220 70 L220 190 L20 190 Z"/>
+              <path class="papel envelope__aba-aberta" d="M20 70 L120 2 L220 70 Z"/>
+            </g>
+            <g class="envelope__carta">
+              <g transform="translate(0 18)">
+                <rect class="papel" x="40" y="58" width="160" height="112" rx="6"/>
+                <path class="traco-fino" d="M60 84 L180 84 M60 102 L168 102 M60 120 L146 120"/>
+                <path class="preenche" d="M168 154 C 158 147, 158 137, 165 138 C 166 139, 167 140, 168 142 C 169 140, 170 139, 171 138 C 178 137, 178 147, 168 154 Z"/>
+              </g>
+            </g>
+            <g class="envelope__parte">
+              <path class="papel" d="M20 70 L120 140 L220 70 L220 190 L20 190 Z"/>
+              <path class="papel envelope__aba" d="M20 70 L120 140 L220 70 Z"/>
+              <path class="preenche envelope__selo" d="M120 152 C 104 141, 104 125, 114 126 C 116 127, 118 129, 120 132 C 122 129, 124 127, 126 126 C 136 125, 136 141, 120 152 Z"/>
+            </g>
+          </svg>
+          <h1 class="abertura__titulo">Oi. Fiz uma coisa pra você.</h1>
+          <p class="abertura__dica">Rola devagar pra abrir <span aria-hidden="true">↓</span></p>
+        </section>
 
-    const heartEmojis = ['❤️', '🩷', '🧡', '💛', '💚', '💙', '🩵', '💜', '🤎', '🖤', '🩶', '🤍', '💔', '❤️‍🔥', '❤️‍🩹', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '🫶', '♥️', '💌'];
+        <section class="cena" data-cor="#fff4d6">
+          <svg class="rabisco" viewBox="0 0 200 200" aria-hidden="true">
+            <path class="traco" d="M100 60 C 124 58, 142 78, 140 100 C 139 124, 120 141, 99 140 C 76 139, 59 121, 60 99 C 61 77, 78 61, 102 61"/>
+            <path class="traco" d="M100 18 L101 40 M99 160 L100 182 M18 101 L40 100 M160 99 L182 100 M42 44 L57 58 M143 142 L158 157 M158 43 L143 58 M57 143 L42 158"/>
+            <path class="traco" d="M86 91 L86 97 M114 91 L114 97 M84 110 Q100 125 116 110"/>
+            <ellipse class="bochecha" cx="77" cy="108" rx="7" ry="4"/>
+            <ellipse class="bochecha" cx="123" cy="108" rx="7" ry="4"/>
+          </svg>
+          <p class="cena__texto">Desde que você apareceu, meus dias ficaram bem mais leves.</p>
+        </section>
 
-    function typeWriter() {
-      if (index < texto.length) {
-        h1.innerHTML += texto.charAt(index);
-        index++;
-        setTimeout(typeWriter, 120);
-      } else {
-        botoesDiv.style.opacity = '1';
-        setTimeout(() => {
-            simButton.classList.add('pulse-attention');
-        }, 5000);
-      }
-    }
+        <section class="cena" data-cor="#e6f0ff">
+          <svg class="rabisco" viewBox="0 0 200 200" aria-hidden="true">
+            <path class="traco" d="M64 26 L128 25 Q136 25 136 33 L137 170 Q137 178 129 178 L68 179 Q60 179 60 171 L59 34 Q59 26 64 26"/>
+            <path class="traco" d="M88 40 L108 40"/>
+            <path class="traco" d="M78 70 Q78 60 88 60 L120 60 Q128 60 128 70 L128 94 Q128 102 120 102 L94 102 L80 114 L85 102 Q78 102 78 94 Z"/>
+            <path class="traco" d="M78 128 L120 128 M78 144 L104 144"/>
+            <path class="preenche" d="M103 92 C 90 84, 90 70, 98 72 C 100 73, 102 75, 103 78 C 104 75, 106 73, 108 72 C 116 70, 116 84, 103 92 Z"/>
+            <path class="preenche" d="M160 54 C 150 47, 151 37, 157 38 C 158 39, 159 40, 160 42 C 161 40, 162 39, 163 38 C 169 37, 170 47, 160 54 Z"/>
+            <path class="preenche" d="M174 86 C 167 81, 168 74, 172 75 C 173 75, 173 76, 174 77 C 175 76, 175 75, 176 75 C 180 74, 181 81, 174 86 Z"/>
+          </svg>
+          <p class="cena__texto">Eu me pego sorrindo pro celular toda vez que chega mensagem sua.</p>
+        </section>
 
-    function moverBotaoNao() {
-      if (naoButton.style.position !== 'absolute') {
-          const rect = naoButton.getBoundingClientRect();
-          naoButton.style.position = 'absolute';
-          naoButton.style.left = `${rect.left}px`;
-          naoButton.style.top = `${rect.top}px`;
-      }
+        <section class="cena" data-cor="#ffe6ee">
+          <svg class="rabisco" viewBox="0 0 200 200" aria-hidden="true">
+            <path class="traco" d="M46 66 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M114 66 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0"/>
+            <path class="traco" d="M66 86 L66 142 M134 86 L134 142 M66 142 L54 178 M66 142 L78 178 M134 142 L122 178 M134 142 L146 178"/>
+            <path class="traco" d="M66 104 L44 128 M66 104 Q100 132 134 104 M134 104 L156 128"/>
+            <path class="traco" d="M58 64 L58 68 M72 64 L72 68 M60 74 Q65 78 70 74 M128 64 L128 68 M142 64 L142 68 M130 74 Q135 78 140 74"/>
+            <ellipse class="bochecha" cx="54" cy="72" rx="4" ry="2.5"/>
+            <ellipse class="bochecha" cx="146" cy="72" rx="4" ry="2.5"/>
+            <path class="preenche" d="M100 44 C 84 32, 86 16, 96 18 C 98 19, 99 21, 100 24 C 101 21, 102 19, 104 18 C 114 16, 116 32, 100 44 Z"/>
+          </svg>
+          <p class="cena__texto">E qualquer coisa boba fica especial quando é com você.</p>
+        </section>
 
-      const padding = 20;
-      const maxX = window.innerWidth - naoButton.offsetWidth - padding;
-      const maxY = window.innerHeight - naoButton.offsetHeight - padding;
-      
-      const newX = Math.max(padding, Math.floor(Math.random() * maxX));
-      const newY = Math.max(padding, Math.floor(Math.random() * maxY));
+        <section class="cena" data-cor="#efe8ff">
+          <svg class="rabisco" viewBox="0 0 200 200" aria-hidden="true">
+            <path class="traco" d="M100 16 C 56 38, 152 66, 100 98 C 58 122, 134 142, 100 178"/>
+            <path class="traco" d="M84 162 L100 180 L118 164"/>
+            <path class="preenche" d="M150 40 C 140 33, 141 23, 147 24 C 148 25, 149 26, 150 28 C 151 26, 152 25, 153 24 C 159 23, 160 33, 150 40 Z"/>
+          </svg>
+          <p class="cena__texto">Então eu criei coragem pra te perguntar uma coisa…</p>
+        </section>
+      </div>
+    </div>
 
-      naoButton.style.left = `${newX}px`;
-      naoButton.style.top = `${newY}px`;
-    }
+    <section class="pergunta" id="pergunta" aria-labelledby="pergunta-titulo">
+      <h2 class="pergunta__titulo" id="pergunta-titulo">Quer namorar comigo?</h2>
+      <div class="botoes">
+        <button class="botao botao--sim" id="sim" type="button">Sim!</button>
+        <button class="botao botao--nao" id="nao" type="button">Não</button>
+      </div>
+    </section>
+  </main>
 
-    function createPoppingHeart(e) {
-        const heart = document.createElement('div');
-        heart.className = 'popping-heart';
-        
-        const randomEmoji = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-        heart.textContent = randomEmoji;
+  <!-- Comemoração -->
+  <section class="festa" id="festa" hidden aria-labelledby="festa-titulo">
+    <div id="petalas" class="petalas" aria-hidden="true"></div>
+    <button class="mudo" id="mudo" type="button" aria-label="Silenciar música">🔊</button>
+    <h2 class="festa__titulo" id="festa-titulo">Você disse sim!</h2>
+    <div class="festa__palco">
+      <img class="festa__desenho" id="desenho" alt="Bonequinho desenhado à mão mandando um coração" width="300" height="300">
+      <div class="coracao" id="coracao" aria-label="Coração montado com pecinhas. Toque nelas para estourar." role="img"></div>
+    </div>
+    <div class="festa__final" id="final">
+      <p class="festa__frase">Prometo cuidar bem desse coração.</p>
+      <p class="festa__dica">Toca nos coraçõezinhos pra estourar.</p>
+      <div class="festa__acoes">
+        <button class="link" id="remontar" type="button">Montar o coração de novo</button>
+        <button class="link" id="reiniciar" type="button">Ver tudo desde o começo</button>
+      </div>
+    </div>
+    <audio id="musica" loop preload="none" src="MP3/1.mp3"></audio>
+  </section>
 
-        // Centraliza o emoji no cursor
-        heart.style.left = `${e.clientX - 15}px`;
-        heart.style.top = `${e.clientY - 15}px`;
-
-        document.body.appendChild(heart);
-
-        // Remove o emoji após a animação
-        setTimeout(() => {
-            heart.remove();
-        }, 700); // Duração da animação
-    }
-
-    // --- Event Listeners ---
-
-    window.onload = () => {
-        setTimeout(typeWriter, 500);
-    };
-
-    simButton.addEventListener('click', () => {
-      window.location.href = 'yes.html';
-    });
-
-    naoButton.addEventListener('mouseover', moverBotaoNao);
-
-    document.addEventListener('click', createPoppingHeart);
-
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Physics2DPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="js/love.js"></script>
 </body>
 </html>

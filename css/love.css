@@ -1,117 +1,486 @@
+/* O site inteiro é uma folha de caderno: o GIF tem traço preto e miolo
+   transparente, então o fundo precisa ser sempre claro para ele aparecer. */
 :root {
-    --unit-size: 40px;
+    --papel: #fcfdff;
+    --pauta: #dbe6f4;
+    --margem: #f3a9b1;
+    --tinta: #2a2630;
+    --tinta-suave: #5d5a66;
+    --bochecha: #ffa0a0;
+    --rosa: #f4a3b8;
+    --rosa-forte: #d9607f;
+
+    --linha: 2.25rem;
+    --margem-x: 3.5rem;
+    --mao: 'Caveat', 'Segoe Print', cursive;
+    --letra: 'Patrick Hand', 'Segoe Print', cursive;
+    --borda-mao: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    --folha:
+        linear-gradient(90deg, transparent calc(var(--margem-x) - 2px), var(--margem) calc(var(--margem-x) - 2px), var(--margem) var(--margem-x), transparent var(--margem-x)),
+        repeating-linear-gradient(180deg, transparent 0 calc(var(--linha) - 1px), var(--pauta) calc(var(--linha) - 1px) var(--linha));
+
+    color-scheme: light;
 }
 
 * {
     margin: 0;
     padding: 0;
-    border: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    /* Fundo com gradiente suave */
-    background: radial-gradient(ellipse at center, #FFEFD5 0%, #FAEBD7 100%);
+html {
+    background: var(--papel);
+    -webkit-text-size-adjust: 100%;
 }
 
-.container {
-    width: 100%;
-    height: 100%;
+/* recomendações do Lenis */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+body {
+    min-height: 100svh;
+    font-family: var(--letra);
+    font-size: 1.25rem;
+    line-height: var(--linha);
+    color: var(--tinta);
+    background-color: var(--papel);
+    background-image: var(--folha);
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+}
+
+body.is-locked {
+    overflow: hidden;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* --- TRAÇOS DESENHADOS --- */
+.traco,
+.traco-fino {
+    fill: none;
+    stroke: var(--tinta);
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.traco-fino {
+    stroke: var(--tinta-suave);
+    stroke-width: 3;
+}
+
+.papel {
+    fill: #fff;
+    stroke: var(--tinta);
+    stroke-width: 4;
+    stroke-linejoin: round;
+}
+
+.preenche {
+    fill: var(--rosa);
+    stroke: var(--tinta);
+    stroke-width: 3.5;
+    stroke-linejoin: round;
+}
+
+.bochecha {
+    fill: var(--bochecha);
+}
+
+/* --- BOTÕES --- */
+/* hover usa translate/rotate individuais para não brigar com o transform do GSAP */
+.botao {
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: calc(clamp(1.75rem, 6vw, 2.5rem) * var(--escala, 1));
+    line-height: 1.1;
+    padding: 0.35em 1.1em 0.45em;
+    color: var(--tinta);
+    background: var(--papel);
+    border: 3px solid var(--tinta);
+    border-radius: var(--borda-mao);
+    box-shadow: 3px 4px 0 var(--tinta);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: translate 0.15s ease, rotate 0.15s ease, box-shadow 0.15s ease;
+}
+
+.botao:hover {
+    translate: -1px -2px;
+    rotate: -1deg;
+    box-shadow: 4px 6px 0 var(--tinta);
+}
+
+.botao:active {
+    translate: 2px 3px;
+    box-shadow: 1px 1px 0 var(--tinta);
+}
+
+.botao:focus-visible,
+.link:focus-visible,
+.mudo:focus-visible {
+    outline: 3px dashed var(--rosa-forte);
+    outline-offset: 6px;
+}
+
+.botao--sim {
+    background: var(--rosa);
+}
+
+.link {
+    font: inherit;
+    color: var(--tinta-suave);
+    background: none;
+    border: none;
+    text-decoration: underline wavy var(--margem) 2px;
+    text-underline-offset: 6px;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.link:hover {
+    color: var(--tinta);
+}
+
+/* --- HISTÓRIA (scrollytelling) ---
+   Sem GSAP, tudo aparece empilhado como uma página normal.
+   Com GSAP (classe .anima), o palco fica preso e as cenas se sobrepõem. */
+.palco {
     position: relative;
 }
 
-/* --- BOTÃO DE MUDO --- */
-#mute-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-    z-index: 1002;
-    user-select: none;
+.anima .trilho {
+    height: calc(var(--cenas, 5) * 125svh + 100svh);
 }
 
-/* --- ANIMAÇÕES E ELEMENTOS --- */
-.body_left {
-    width: 300px;
-    height: auto;
+.anima .palco {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background-color: var(--papel);
+    background-image: var(--folha);
+}
+
+.cena {
+    min-height: 90svh;
+    display: grid;
+    grid-template-columns: minmax(10rem, 19rem) minmax(0, 32rem);
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4.5rem);
+    padding: 2rem 1.25rem 2rem calc(var(--margem-x) + 1.25rem);
+}
+
+.anima .cena {
     position: absolute;
-    left: 10px;
-    bottom: 110px;
-    z-index: 98;
+    inset: 0;
+    min-height: 0;
+    pointer-events: none;
 }
 
-.body_left img {
+.anima .cena:not(.cena--abertura) {
+    visibility: hidden;
+}
+
+/* as cenas alternam o lado do desenho */
+.cena:nth-of-type(even) {
+    grid-template-columns: minmax(0, 32rem) minmax(10rem, 19rem);
+}
+
+.cena:nth-of-type(even) .cena__texto {
+    order: -1;
+}
+
+.cena__texto {
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 6.5vw, 4rem);
+    line-height: 1.12;
+}
+
+.rabisco {
     width: 100%;
-    height: auto;
+    overflow: visible;
 }
 
-.container .love {
-    width: calc(13 * var(--unit-size));
-    height: calc(11 * var(--unit-size));
+.cena--abertura {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.envelope {
+    width: min(20rem, 62vw, 40svh);
+    overflow: visible;
+}
+
+.abertura__titulo {
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 9vw, 4.75rem);
+    line-height: 1.05;
+    max-width: 14ch;
+}
+
+.abertura__dica {
+    color: var(--tinta-suave);
+}
+
+.abertura__dica span {
+    display: inline-block;
+}
+
+.enfeites {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    pointer-events: none;
+}
+
+.enfeite {
+    position: absolute;
+    top: 0;
+    overflow: visible;
+}
+
+.enfeite path {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* coraçãozinho que desce pela margem do caderno mostrando o progresso */
+.progresso {
+    position: absolute;
+    top: 12svh;
+    bottom: 12svh;
+    left: calc(var(--margem-x) - 1px);
     z-index: 2;
 }
 
-.love .block {
-    right: 0;
+.progresso__coracao {
     position: absolute;
-    visibility: hidden;
-    /* Animação de surgimento */
-    animation: appear 0.4s ease-out forwards;
+    left: 0;
+    top: 0;
+    translate: -50% -50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--rosa-forte);
 }
 
-.love .block div {
-    width: var(--unit-size);
-    height: var(--unit-size);
+.progresso__coracao::before {
+    content: '♥';
+}
+
+/* --- PERGUNTA --- */
+.pergunta {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem 1rem 6rem calc(var(--margem-x) + 1rem);
+    text-align: center;
+}
+
+.pergunta__titulo {
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: clamp(3rem, 11vw, 6rem);
+    line-height: 1.05;
+    color: var(--rosa-forte);
+    max-width: 12ch;
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    min-height: 6rem;
+}
+
+/* coraçõezinhos e confetes soltos pela tela */
+.voa {
+    position: fixed;
+    left: 0;
+    top: 0;
+    font-size: 1.9rem;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 300;
+}
+
+.particula {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 150;
+}
+
+/* --- COMEMORAÇÃO --- */
+.festa {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+    padding: max(1.25rem, env(safe-area-inset-top)) 1rem max(1.25rem, env(safe-area-inset-bottom)) calc(var(--margem-x) + 0.5rem);
+    background-color: var(--papel);
+    background-image: var(--folha);
+}
+
+.festa__titulo {
+    position: relative;
+    z-index: 3;
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 9vw, 5rem);
+    line-height: 1.1;
+    color: var(--rosa-forte);
+    text-align: center;
+    padding: 0 3.25rem;
+}
+
+.festa__palco {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 60rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 3vw, 3rem);
+}
+
+/* o boneco aponta para a direita, então fica à esquerda do coração */
+.festa__desenho {
+    flex: none;
+    width: clamp(7.5rem, 28vw, 18rem);
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.coracao {
+    --u: 40px;
+    position: relative;
+    flex: none;
+    width: calc(13 * var(--u));
+    height: calc(11 * var(--u));
+}
+
+.coracao.brilho {
+    filter: drop-shadow(0 0 calc(var(--u) * 0.5) rgba(244, 163, 184, 0.7));
+}
+
+.peca {
     position: absolute;
-    background: url("../images/heart.png") no-repeat;
-    background-size: contain;
+    inset: 0;
+    pointer-events: none;
+}
+
+.quadrado {
+    position: absolute;
+    left: calc(var(--x) * var(--u));
+    top: calc(var(--y) * var(--u));
+    width: var(--u);
+    height: var(--u);
+    padding: 0;
+    border: none;
+    background: url("../images/coracao-rosa.svg") center / contain no-repeat;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+}
+
+.quadrado.estourado {
+    visibility: hidden;
+}
+
+.festa__final {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+}
+
+.festa__frase {
+    font-family: var(--mao);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 5.5vw, 2.75rem);
+    line-height: 1.15;
+}
+
+.festa__dica {
+    color: var(--tinta-suave);
+}
+
+.festa__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 1rem;
+}
+
+.mudo {
+    position: absolute;
+    top: max(0.75rem, env(safe-area-inset-top));
+    right: 0.75rem;
+    z-index: 5;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.6rem;
+    background: var(--papel);
+    border: 2px solid var(--tinta);
+    border-radius: var(--borda-mao);
     cursor: pointer;
 }
 
-/* --- ESTILOS DAS PÉTALAS --- */
-#petal-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.petalas {
+    position: fixed;
+    inset: 0;
     z-index: 1;
+    pointer-events: none;
 }
 
-.petal {
+.petala {
     position: absolute;
     top: -10%;
-    width: 20px;
-    height: 25px;
-    background: linear-gradient(to bottom, rgba(255, 182, 193, 0.9), rgba(255, 230, 235, 0.8));
-    border-radius: 150% 0% 150% 0%;
-    pointer-events: none;
-    animation: fall-and-sway linear infinite;
+    background: linear-gradient(to bottom, rgba(248, 180, 198, 0.9), rgba(255, 226, 233, 0.8));
+    border-radius: 150% 0 150% 0;
+    animation: cair-balancando linear infinite;
 }
 
-/* --- ESTILOS DA EXPLOSÃO --- */
-.explosion-particle {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: #c40908;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1001;
-}
-
-/* --- KEYFRAMES (ANIMAÇÕES) --- */
-
-@keyframes fall-and-sway {
+@keyframes cair-balancando {
     0% { transform: translateY(0) translateX(0) rotate3d(0, 0, 1, 0deg); opacity: 1; }
     25% { transform: translateY(30vh) translateX(50px) rotate3d(1, 1, 0, 60deg); }
     50% { transform: translateY(60vh) translateX(-80px) rotate3d(0, 1, 1, 120deg); }
@@ -119,24 +488,49 @@ html, body {
     100% { transform: translateY(120vh) translateX(-20px) rotate3d(0, 0, 1, 220deg); opacity: 0; }
 }
 
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
+/* --- CELULAR --- */
+@media (max-width: 700px) {
+    :root {
+        --margem-x: 1.75rem;
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+
+    .cena,
+    .cena:nth-of-type(even) {
+        grid-template-columns: minmax(0, 24rem);
+        gap: 1.5rem;
+        padding-left: calc(var(--margem-x) + 1rem);
+    }
+
+    .cena:nth-of-type(even) .cena__texto {
+        order: 0;
+    }
+
+    .rabisco {
+        width: min(12rem, 52vw, 30svh);
+        justify-self: center;
+    }
+
+    /* coração em cima, boneco embaixo à esquerda apontando para ele */
+    .festa__palco {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 0;
+    }
+
+    .festa__titulo {
+        padding: 0 2.75rem 0 0;
+    }
+
+    .festa__desenho {
+        align-self: flex-start;
+        width: clamp(6.5rem, 30vw, 9.5rem);
+        margin-top: -0.5rem;
     }
 }
 
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 768px) {
-    :root { --unit-size: 25px; }
-    .body_left { width: 150px; bottom: 80px; }
-}
-
-@media (max-width: 480px) {
-    :root { --unit-size: 20px; }
-    .body_left { width: 100px; }
+/* Só os efeitos que se mexem sozinhos são desligados; o que segue a rolagem continua. */
+@media (prefers-reduced-motion: reduce) {
+    .petalas {
+        display: none;
+    }
 }
