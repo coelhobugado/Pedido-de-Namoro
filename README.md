@@ -1,36 +1,73 @@
-<h1>Pedido de Namoro</h1>
+# 💌 Pedido de Namoro
 
-<p>Um pedido de namoro contado como uma história em rolagem (scrollytelling), desenhado como uma folha de caderno. Não precisa instalar nada: é só abrir o <code>index.html</code> ou publicar a pasta no GitHub Pages.</p>
+Um pedido de namoro contado como uma história em rolagem, desenhado como uma folha de caderno. Quem recebe vai rolando a tela, a carta se abre, as frases aparecem uma por uma e, no fim, vem a pergunta. O botão "Não" é impossível de clicar.
 
-https://github.com/user-attachments/assets/75850435-680e-4c24-8c63-400dc9e7b93a
+Não precisa instalar nada: é só abrir o `index.html` no navegador ou publicar a pasta no GitHub Pages e mandar o link.
 
-<h2>Como funciona</h2>
+## Demonstração
 
-<ol>
-  <li><b>Envelope:</b> ao rolar, o selo estoura, a aba abre e a carta voa em direção à tela.</li>
-  <li><b>História:</b> a tela fica presa enquanto cada cena entra. O rabisco se desenha, as letras surgem do desfoque, os detalhes coloridos estalam com efeito de mola e a cor do fundo vai mudando.</li>
-  <li><b>Pergunta:</b> as letras de "Quer namorar comigo?" caem com efeito elástico.
-    <ul>
-      <li>No computador, o botão "Não" foge do mouse.</li>
-      <li>No celular, cada toque no "Não" troca o texto dele, deixa o botão menor e o "Sim" maior, até o "Não" cair.</li>
-    </ul>
-  </li>
-  <li><b>Sim:</b> a música começa, o bonequinho se desenha e manda um "biu", e as peças do coração caem quicando até montar o coração. Tocar nos coraçõezinhos faz eles estourarem.</li>
-</ol>
+<table>
+  <tr>
+    <th>Computador</th>
+    <th>Celular</th>
+  </tr>
+  <tr>
+    <td><img src="demo/demo-computador.gif" alt="Demonstração no computador: a carta abre, as cenas passam, o botão Não foge do mouse e o coração é montado" width="560"></td>
+    <td><img src="demo/demo-celular.gif" alt="Demonstração no celular: cada toque no Não deixa ele menor e o Sim maior, até sobrar só o Sim" width="240"></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="demo/demo-computador.mp4">▶️ Ver o vídeo com música</a></td>
+    <td align="center"><a href="demo/demo-celular.mp4">▶️ Ver o vídeo com música</a></td>
+  </tr>
+</table>
 
-<h2>Tecnologia</h2>
+## Como funciona
 
-<ul>
-  <li><a href="https://gsap.com">GSAP 3.13</a> com os plugins ScrollTrigger, SplitText, DrawSVG e Physics2D: coreografia, texto, traços e gravidade dos confetes.</li>
-  <li><a href="https://lenis.darkroom.engineering">Lenis</a>: rolagem com inércia no computador. No celular, a rolagem continua sendo a do próprio aparelho.</li>
-</ul>
+1. **A carta:** ao rolar, o selo estoura, a aba abre e a carta voa em direção à tela.
+2. **A história:** a tela fica parada enquanto cada cena entra. O desenho se rabisca sozinho, as letras surgem do desfoque e a cor do fundo vai mudando. Um coraçãozinho na margem mostra quanto falta.
+3. **A pergunta:** as letras de "Quer namorar comigo?" caem com efeito elástico, e depois de alguns segundos o "Sim" começa a chamar atenção.
+   - **No computador**, o "Não" foge do mouse.
+   - **No celular**, cada toque no "Não" troca o texto dele ("Tem certeza?", "Pensa bem…", "Olha que eu choro 🥺"…). Ele vai ficando menor e o "Sim" maior, até o "Não" cair.
+4. **O sim:** a música começa, o bonequinho se desenha e manda um "biu", e as peças do coração caem quicando até montar o coração. Dá para estourar os coraçõezinhos com um toque e montar tudo de novo.
 
-<p>As bibliotecas vêm por CDN. Sem internet, a página mostra as cenas uma embaixo da outra, sem animação, e continua funcionando.</p>
+## Como usar
 
-<h2>Como personalizar</h2>
+**Pelo GitHub Pages (recomendado):**
 
-<ul>
-  <li><b>Frases da história:</b> estão no <code>index.html</code>, em cada <code>&lt;section class="cena"&gt;</code>. A cor de fundo de cada cena fica no atributo <code>data-cor</code>.</li>
-  <li><b>Frases do botão "Não" no celular:</b> ficam em <code>FRASES_NAO</code>, no começo do <code>js/love.js</code>.</li>
-  <li><b>Música:</b> troque o arquivo <code>MP3/1.mp3</code>.</li>
-</ul>
+1. Faça um fork deste repositório.
+2. No seu fork, vá em **Settings → Pages**, escolha a branch `main` e a pasta `/ (root)` e clique em **Save**.
+3. Em um ou dois minutos o site fica em `https://SEU-USUARIO.github.io/Pedido-de-Namoro/`. É esse link que você manda.
+
+**No seu computador:** baixe o projeto (**Code → Download ZIP**), descompacte e abra o `index.html`.
+
+## Como personalizar
+
+| O que trocar | Onde fica |
+| --- | --- |
+| Frases da história | `index.html`, dentro de cada `<section class="cena">` |
+| Cor de fundo de cada cena | atributo `data-cor` da mesma `<section>` |
+| Quantidade de cenas | copie ou apague uma `<section class="cena">`; a rolagem se ajusta sozinha |
+| A pergunta e a frase final | `index.html`, em `#pergunta-titulo` e `.festa__frase` |
+| Frases do "Não" no celular | `FRASES_NAO`, no começo do `js/love.js` |
+| Música | troque o arquivo `MP3/1.mp3` (mantenha o mesmo nome) |
+| Título e prévia do link no WhatsApp | `<title>` e as tags `og:` no começo do `index.html` |
+
+## Estrutura
+
+```
+├── index.html         página única: carta, história, pergunta e comemoração
+├── yes.html           só redireciona para o index.html (mantém links antigos funcionando)
+├── css/love.css       visual de caderno e layout
+├── js/love.js         animações, botões e o coração de pecinhas
+├── images/            bonequinho (GIF) e o coraçãozinho rosa (SVG)
+├── MP3/1.mp3          música da comemoração
+└── demo/              GIFs e vídeos deste README
+```
+
+## Tecnologia
+
+- [GSAP 3.13](https://gsap.com) com os plugins ScrollTrigger, SplitText, DrawSVG e Physics2D: coreografia da rolagem, texto, traços e a gravidade dos confetes.
+- [Lenis](https://lenis.darkroom.engineering): rolagem suave no computador. No celular, a rolagem é a do próprio aparelho.
+- HTML, CSS e JavaScript puros, sem build e sem dependências para instalar.
+
+As bibliotecas vêm por CDN. Sem internet, a página mostra as cenas uma embaixo da outra, sem animação, e continua funcionando. Quem tem a opção "reduzir movimento" ligada no sistema também recebe uma versão mais calma.
