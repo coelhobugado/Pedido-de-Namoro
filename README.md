@@ -9,14 +9,15 @@
 <p align="center">
   <a href="https://coelhobugado.github.io/Pedido-de-Namoro/"><b>💘 Ver ao vivo</b></a> ·
   <a href="#como-usar">Como usar</a> ·
-  <a href="#como-personalizar">Como personalizar</a> ·
-  <a href="#demonstração-com-som">Vídeos com som</a>
+  <a href="#como-personalizar">Como personalizar</a>
 </p>
 
 <p align="center">
-  <img src="demo/demo-computador.gif" alt="No computador: a carta abre, as cenas passam, o botão Não foge do mouse e o coração é montado" width="77%">
-  <img src="demo/demo-celular.gif" alt="No celular: cada toque no Não deixa ele menor e o Sim maior, até sobrar só o Sim" width="20%">
+  <a href="https://github.com/user-attachments/assets/2eac8ac9-71b6-4f12-bc59-09ed1e19e82e"><img src="demo/demo-computador.gif" alt="No computador: a carta abre, as cenas passam, o botão Não foge do mouse e o coração é montado" width="77%"></a>
+  <a href="https://github.com/user-attachments/assets/b2b523d6-8aa6-47b8-af36-320877d763b6"><img src="demo/demo-celular.gif" alt="No celular: cada toque no Não deixa ele menor e o Sim maior, até sobrar só o Sim" width="20%"></a>
 </p>
+
+<p align="center"><sub>Clique em uma das animações para ver o vídeo com música.</sub></p>
 
 Não precisa instalar nada: é só abrir o `index.html` no navegador ou publicar a pasta no GitHub Pages e mandar o link.
 
@@ -28,16 +29,6 @@ Não precisa instalar nada: é só abrir o `index.html` no navegador ou publicar
    - **No computador**, o "Não" foge do mouse.
    - **No celular**, cada toque no "Não" troca o texto dele ("Tem certeza?", "Pensa bem…", "Olha que eu choro 🥺"…). Ele vai ficando menor e o "Sim" maior, até o "Não" cair.
 4. **O sim:** a música começa, o bonequinho se desenha e manda um "biu", e as peças do coração caem quicando até montar o coração. Dá para estourar os coraçõezinhos com um toque e montar tudo de novo.
-
-## Demonstração com som
-
-**No computador:** o "Não" foge do mouse.
-
-https://github.com/user-attachments/assets/2eac8ac9-71b6-4f12-bc59-09ed1e19e82e
-
-**No celular:** cada toque no "Não" deixa ele menor e o "Sim" maior.
-
-https://github.com/user-attachments/assets/b2b523d6-8aa6-47b8-af36-320877d763b6
 
 ## Como usar
 
