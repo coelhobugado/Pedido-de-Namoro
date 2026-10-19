@@ -69,7 +69,7 @@ https://github.com/user-attachments/assets/b2b523d6-8aa6-47b8-af36-320877d763b6
 ├── js/love.js         animações, botões e o coração de pecinhas
 ├── images/            bonequinho (GIF) e o coraçãozinho rosa (SVG)
 ├── MP3/1.mp3          música da comemoração
-└── demo/              GIFs e vídeos deste README
+└── demo/              GIFs e vídeos de demonstração
 ```
 
 ## Tecnologia
