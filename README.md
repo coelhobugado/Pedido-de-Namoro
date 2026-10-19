@@ -7,6 +7,7 @@
 </p>
 
 <p align="center">
+  <a href="https://coelhobugado.github.io/Pedido-de-Namoro/"><b>💘 Ver ao vivo</b></a> ·
   <a href="#como-usar">Como usar</a> ·
   <a href="#como-personalizar">Como personalizar</a> ·
   <a href="#demonstração-com-som">Vídeos com som</a>
